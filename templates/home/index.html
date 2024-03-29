@@ -15,18 +15,10 @@
     <script defer nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-title">Financial Analyzer</div>
-        <nav class="nav-sidebar">
-            <a href="#">Home</a>
-            <a href="#notifications">Minha conta</a>
-        </nav>
-        <div class="toggle-theme">
-          <a href="">Dark</a> 
-          <a href="">Light</a>
-        </div>
-    </div>
+  
+  {% include 'partials/_sidebar.html' %}
 
+  <div id="main-content">
     <div class="editor-settings">
         <h1>Intractive chart</h1>
         <div class="search-container">
@@ -38,7 +30,6 @@
         </div>
       </div>
     
-    <div id="main-content">
         <table class="responsive-table">
             <thead>
             <tr>
@@ -58,12 +49,9 @@
               <td data-label="Volume">10,000</td>
               <td data-label="Modo de An">$150,000</td>
               <td data-label="Value">$150,000</td>
-              <td class="icon-column"><ion-icon name="create-outline"></ion-icon></td>
-              <td class="icon-column"><ion-icon name="trash-outline"></ion-icon></td>
+              <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
+              <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
             </tr>
-    </div>
-
-    
-
+  </div>
 </body>
 </html>
