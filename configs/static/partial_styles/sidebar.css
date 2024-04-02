@@ -8,16 +8,14 @@
   position: fixed;
   z-index: 1;
   top: 0;
-  left: 0;
   background-color: #111;
   overflow-x: hidden;
   color: white;
 }
 
 .sidebar a {
-  padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   color: #818181;
   display: block;
 }
@@ -33,27 +31,58 @@
 }
   
 .sidebar-title{
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
-#user-options h1{
-  padding: 10px;
-  text-align: center;
-  color: #fff;
+.nav-option-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:1rem;
+
+  margin-left: 1.5rem;
 }
-    
+
+.nav-option-wrapper ion-icon {
+  font-size: 2rem;
+}
+
 .nav-sidebar{
+  display: flex;
+  flex-direction: column;
+  gap:2.4rem;
   margin-top:1rem;
 }
-  
-.toggle-theme {
+
+.user-options {
   display: flex;
+  gap:1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  width: 100%;
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 1.5rem;
 }
 
-.toggle-theme a {
-  font-size: 18px;
-  color: #818181;
+.user-options button{
+  width:15rem;
+  padding: .2rem;
+  border: none;
+  border-radius: .5rem;
+  
+  background-color: #344573;
+  color: white;
+  
+  cursor: pointer;
+}
+
+.user-options button:hover{
+  background-color: #324991;
+}
+
+.user-options a {
+  font-size: 1.5rem;
+  color: white;
 }

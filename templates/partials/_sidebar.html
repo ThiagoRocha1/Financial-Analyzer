@@ -1,19 +1,26 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'partial_styles/sidebar.css'%}">
 <div class="sidebar">
-    <div class="sidebar-title">Financial Analyzer</div>
-      <nav class="nav-sidebar">
-        <a href="{% url 'index' %}">Home</a>
+  <div class="sidebar-title">Financial Analyzer</div>
+  <nav class="nav-sidebar">
+    <div class="nav-option-wrapper">
+      <ion-icon name="home-outline"></ion-icon>
+      <a href="{% url 'index' %}">Home</a>
+    </div>
+    {%if user.is_authenticated %}
+      <div class="nav-option-wrapper">
+        <ion-icon name="person-outline"></ion-icon>
         <a href="#">Minha conta</a>
-      </nav>
-    <div id="user-options">
-      <div class="sidebar-title">User Options</div>
-        <a href="{% url 'register'%}">Cadastro</a>
-        <a href="{% url 'login'%}">Login</a>
-        <a href="{% url 'logout'%}">Logout</a>
-    </div>
-    <div class="toggle-theme">
-      <a href="">Dark</a> 
-      <a href="">Light</a>
-    </div>
+      </div>
+    {% endif %}
+    </nav>
+
+    <div class="user-options">
+      {%if user.is_authenticated %}
+        <button><a href="{% url 'logout'%}">Logout</a></button>
+      {%else%}
+        <button><a href="{% url 'login'%}">Login</a></button>
+        <button><a href="{% url 'register'%}">Cadastro</a></button>
+      {% endif %}
   </div>
+</div>

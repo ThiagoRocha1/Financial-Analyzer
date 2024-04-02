@@ -7,10 +7,11 @@ from users.forms import RegisterForms,LoginForms
 
 def register (request):
     form = RegisterForms()
+    show_alert = False
 
     if (request.method == 'POST'):
         form = RegisterForms(request.POST)
-
+        
         if form.is_valid():
             name = form["loginName"].value()
             password = form["password"].value()
@@ -18,7 +19,8 @@ def register (request):
 
             if (User.objects.filter(username=name).exists()):
                 messages.error(request,'Usuário já cadastrado!')
-                return redirect('cadastro')
+                show_alert = True
+                return redirect('register')
 
             user = User.objects.create_user(
                 username=name,
@@ -28,10 +30,11 @@ def register (request):
 
             user.save()
             messages.success(request,'Usuario cadastrado com sucesso')
+            show_alert = True
             return redirect('login')
 
        
-    return render(request,'users/register.html',{"form":form})
+    return render(request,'users/register.html',{"form":form,"show_alert":show_alert})
 
 def login (request):
     form = LoginForms()
@@ -59,4 +62,6 @@ def login (request):
     return render(request,'users/login.html',{"form":form})
 
 def logout(request):
-    pass
+    auth.logout(request)
+    messages.success(request,"Logout efetuado com sucesso!")
+    return redirect('login')

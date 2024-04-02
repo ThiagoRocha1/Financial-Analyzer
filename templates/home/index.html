@@ -2,17 +2,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    {% include 'partials/_head_configs.html' %} 
     <link rel="stylesheet" href="{% static 'home_styles/style.css'%}">
-    <title>Financial Analyzer</title>
-    <script defer type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script defer nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
   
@@ -20,38 +11,58 @@
 
   <div id="main-content">
     <div class="editor-settings">
-        <h1>Intractive chart</h1>
-        <div class="search-container">
-          <input type="search" placeholder="Search">
-        </div>
-        <div class="icon-container">
-          <i class="icon-bell"></i> 
-          <i class="icon-user"></i>
-        </div>
+      <h1>Intractive chart</h1>
+      <div class="search-container">
+        <input type="search" placeholder="Search">
       </div>
+      <div class="icon-container">
+        <i class="icon-bell"></i> 
+        <i class="icon-user"></i>
+      </div>
+    </div>
     
-        <table class="responsive-table">
-            <thead>
-            <tr>
-              <th>Ativo</th>
-              <th>Preço</th>
-              <th>Volume</th>
-              <th>Modo de Análise</th>
-              <th>Última Atualização</th>
-              <th class="icon-column"></th>
-              <th class="icon-column"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td data-label="Ativo">INSTRNAME</td>
-              <td data-label="Preço">3.25%</td>
-              <td data-label="Volume">10,000</td>
-              <td data-label="Modo de An">$150,000</td>
-              <td data-label="Value">$150,000</td>
-              <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
-              <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
-            </tr>
+    <div id="table-wrapper">
+      <table class="responsive-table">
+        <thead>
+        <tr>
+          <th>Ativo</th>
+          <th>Preço Abertura</th>
+          <th>Preço Fechamento</th>
+          <th>Maior Preço</th>
+          <th>Menor Preço</th>
+          <th>Volume</th>
+          <th>Modo de Analise</th>
+          <th class="icon-column"></th>
+          <th class="icon-column"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% comment %} {% for stock in stock_info%}
+          <tr>
+            <td data-label="Ativo">{{stock.symbol}}</td>
+            <td data-label="Preço Abertura">{{stock.open_price}}</td>
+            <td data-label="Preço Fechamento">{{stock.close_price}}</td>
+            <td data-label="Maior Preço">{{stock.highest_price}}</td>
+            <td data-label="Menor Preço">{{stock.lowest_price}}</td>
+            <td data-label="Volume">{{stock.volume}}</td>
+            <td data-label="Modo de Analise">{{stock.interval}}</td>
+            <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
+            <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
+          </tr>
+        {% endfor%}
+          {% endcomment %}
+          <tr>
+            <td data-label="Ativo">IBM</td>
+            <td data-label="Preço Abertura">123</td>
+            <td data-label="Preço Fechamento">123</td>
+            <td data-label="Maior Preço">123</td>
+            <td data-label="Menor Preço">123</td>
+            <td data-label="Volume">123</td>
+            <td data-label="Modo de Analise">123</td>
+            <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
+            <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
+          </tr>
+    </div>
   </div>
 </body>
 </html>

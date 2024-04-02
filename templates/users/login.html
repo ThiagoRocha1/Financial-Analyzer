@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/_head_configs.html' %}
     <link rel="stylesheet" href="{% static 'users_styles/login.css'%}">
-    <title>Financial Analyzer</title>
 </head>
 <body>
+    
     {% include 'partials/_sidebar.html' %}
+
     <div id="main-content">
         <div class="form-wrapper">
             <div class="form-header">
