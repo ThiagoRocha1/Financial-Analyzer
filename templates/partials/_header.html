@@ -1,0 +1,21 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'partial_styles/header.css'%}">
+
+<header>
+    <div id="user-options-wrapper">
+        <ion-icon name="person-circle-outline" id="person-ion-icon"></ion-icon>
+        <p>Opcões de usuário</p>
+        <ion-icon name="arrow-down-outline"></ion-icon>
+    </div>
+</header>
+
+<div id="user-options-modal">
+    {%if user.is_authenticated %}
+        <button><a href="{% url 'logout'%}">Logout</a></button>
+    {%else%}
+        <button><a href="{% url 'login'%}">Login</a></button>
+        <button><a href="{% url 'register'%}">Cadastro</a></button>
+    {% endif %}
+</div>
+
+<script></script>

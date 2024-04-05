@@ -1,0 +1,19 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'partial_styles/warning_modal.css'%}">
+
+{% for message in messages%}
+    {%if message.tags == 'success'%}
+        <div class="modal-wrapper">{{message}}</div>
+    {% else %}
+        <div class="modal-wrapper error">{{message}}</div>
+    {% endif %}
+{% endfor %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+    setTimeout(function() {
+        $('.modal-wrapper').fadeOut('slow');
+    }, 2500);
+    });
+</script>

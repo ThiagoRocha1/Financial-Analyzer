@@ -1,0 +1,26 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  {% include 'partials/_head_configs.html' %}
+
+  <link rel="stylesheet" href="{% static 'users_styles/account.css'%}">
+</head>
+<body>
+{% include 'partials/_sidebar.html' %}
+   <div id="main-content">
+      {% include 'partials/_header.html' %}
+      <div id="user-info-wrapper">
+         <h1 id="main-title"> Bem vindo ao menu de informações da conta!</h1>
+         <div class="user-field-wrapper">
+            <h1>Nome</h1>
+            <p>{{user.username}}</p>
+         </div>
+         <div class="user-field-wrapper">
+            <h1>E-mail</h1>
+            <p>{{user.email}}</p>
+         </div>
+      </div>
+  </div>
+</body>
+</html>

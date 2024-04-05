@@ -11,6 +11,7 @@
     {% include 'partials/_sidebar.html' %}
 
     <div id="main-content">
+        {% include 'partials/_header.html' %}
         <div class="form-wrapper">
             <div class="form-header">
                 <h1>Login</h1>
@@ -26,12 +27,10 @@
                     </div>
                 {% endfor %}
                 <button type="submit" class="button-form-style">Faça seu login</button>
-                {%for message in messages%}
-                    <p style="color:red">{{message}}</p>
-                {% endfor %}
             </form>
         </div>
     </div>
     </div>
+    {% include 'partials/_warning_modal.html' %}
 </body>
 </html>

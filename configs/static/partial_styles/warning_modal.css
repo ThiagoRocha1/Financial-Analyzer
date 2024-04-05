@@ -1,0 +1,18 @@
+.modal-wrapper{
+    position: absolute;
+    top:1.5rem;
+    right:4rem;
+
+    border-radius:.4rem;
+    padding: 1rem 2rem;
+    
+    font-size: medium;
+    color: white;
+    
+    background-color: #344573;
+    filter: opacity(95%);
+}
+
+.error{
+    background-color: #733434;
+}

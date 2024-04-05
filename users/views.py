@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib import auth,messages
 from users.forms import RegisterForms,LoginForms
 
@@ -65,3 +66,7 @@ def logout(request):
     auth.logout(request)
     messages.success(request,"Logout efetuado com sucesso!")
     return redirect('login')
+
+@login_required
+def account(request):
+    return render(request, 'users/account.html', {'user':request.user})

@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="{% static 'users_styles/register.css'%}">
 </head>
 <body>
+
     {% include 'partials/_sidebar.html' %}
-    
+    {% include 'partials/_warning_modal.html' %}
     
     <div id="main-content">
+        {% include 'partials/_header.html' %}
         <div class="form-wrapper">
             <div class="form-header">
                 <h1>Cadastro</h1>
@@ -24,13 +26,9 @@
                     </div>
                 {% endfor %}
                 <button type="submit" class="button-form-style">Registre-se</button>
-                {%for message in messages%}
-                    <p>
-                        {{message}}
-                    </p>
-                {% endfor %} 
             </form>
         </div>
     </div>
+    {% include 'partials/_warning_modal.html' %}
 </body>
 </html>

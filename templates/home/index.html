@@ -10,17 +10,10 @@
   {% include 'partials/_sidebar.html' %}
 
   <div id="main-content">
-    <div class="editor-settings">
-      <h1>Intractive chart</h1>
-      <div class="search-container">
-        <input type="search" placeholder="Search">
-      </div>
-      <div class="icon-container">
-        <i class="icon-bell"></i> 
-        <i class="icon-user"></i>
-      </div>
+    {% include 'partials/_header.html' %}
+    <div class="search-container">
+      <input type="search" placeholder="Search">
     </div>
-    
     <div id="table-wrapper">
       <table class="responsive-table">
         <thead>
@@ -37,7 +30,7 @@
         </tr>
         </thead>
         <tbody>
-        {% comment %} {% for stock in stock_info%}
+        <!-- {% for stock in stock_info%}
           <tr>
             <td data-label="Ativo">{{stock.symbol}}</td>
             <td data-label="Preço Abertura">{{stock.open_price}}</td>
@@ -49,8 +42,8 @@
             <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
             <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
           </tr>
-        {% endfor%}
-          {% endcomment %}
+        {% endfor%} -->
+        
           <tr>
             <td data-label="Ativo">IBM</td>
             <td data-label="Preço Abertura">123</td>
@@ -64,5 +57,6 @@
           </tr>
     </div>
   </div>
+  {% include 'partials/_warning_modal.html' %}
 </body>
 </html>
