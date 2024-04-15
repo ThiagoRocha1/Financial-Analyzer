@@ -1,0 +1,70 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'partial_styles/add_new_stock.css'%}">
+
+<div class="form-wrapper">
+    <div class="form-header">
+        <h1>Adicione uma nova ação para monitoramento</h1>
+        <p>Escolha o tempo de atualização do ativo e, assim que ele ultrapassar o limite estabelecido, você receberá um e-mail
+            avisando sobre a oportunidade!
+        </p>
+    </div>
+    <form action="{% url 'createNewStockMonitor' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.name == "upperLimitStatic" or field.name == "lowerLimitStatic" or field.name == "basePrice" or field.name == "upperLimitDinamic" or field.name == "lowerLimitDinamic" %}
+                <div class="field-wrapper hidden" id="{{field.name}}">
+                    <label for="{{field.label}}">{{field.label}}</label>
+                    {{field}}
+                </div>
+            {% elif field.name == "userId" %}
+            <div class="field-wrapper" id="{{field.name}}">
+                {{field}}
+            </div>
+            {% else %}
+                <div class="field-wrapper" id="{{field.name}}">
+                    <label for="{{field.label}}">{{field.label}}</label>
+                    {{field}}
+                </div>
+            {% endif%}
+        {% endfor %}
+        <button type="submit" class="button-form-style">Confirmar nova ação</button>
+    </form>
+</div>
+<script>
+    //Elements
+    let typeOfLimitField = document.querySelector("#id_typeOfLimit");
+    console.log(typeOfLimitField)
+    let upperLimitStatic = document.querySelector("#upperLimitStatic");
+    let lowerLimitStatic = document.querySelector("#lowerLimitStatic");
+    let basePrice = document.querySelector("#basePrice");
+    let upperLimitDinamic = document.querySelector("#upperLimitDinamic");
+    let lowerLimitDinamic = document.querySelector("#lowerLimitDinamic");
+    
+    //Functions
+    //See input Options
+    typeOfLimitField.addEventListener('change', function() {
+    if (this.value === 'static') {
+        console.log('Entrei na funcao')
+        upperLimitStatic.classList.remove('hidden');
+        lowerLimitStatic.classList.remove('hidden');
+
+        basePrice.classList.add('hidden')
+        upperLimitDinamic.classList.add('hidden') 
+        lowerLimitDinamic.classList.add('hidden') 
+    } else if (this.value === 'dinamic') {
+        upperLimitStatic.classList.add('hidden');
+        lowerLimitStatic.classList.add('hidden');
+        
+        basePrice.classList.remove('hidden')
+        upperLimitDinamic.classList.remove('hidden') 
+        lowerLimitDinamic.classList.remove('hidden') 
+    }else{
+        upperLimitStatic.classList.add('hidden');
+        lowerLimitStatic.classList.add('hidden');
+        
+        basePrice.classList.add('hidden')
+        upperLimitDinamic.classList.add('hidden') 
+        lowerLimitDinamic.classList.add('hidden') 
+    }
+    });  
+</script>

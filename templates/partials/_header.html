@@ -9,7 +9,7 @@
     </div>
 </header>
 
-<div id="user-options-modal">
+<div class="user-options-modal hidden">
     {%if user.is_authenticated %}
         <button><a href="{% url 'logout'%}">Logout</a></button>
     {%else%}
@@ -18,4 +18,14 @@
     {% endif %}
 </div>
 
-<script></script>
+<script>
+    //Variables
+    let userControlers = document.querySelector("#user-options-wrapper")
+    let modal = document.querySelector(".user-options-modal")
+
+    //Event and function
+    userControlers.addEventListener('click', ()=> {
+        modal.classList.toggle('hidden');
+    })
+
+</script>

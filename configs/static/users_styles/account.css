@@ -17,11 +17,10 @@ body,button,input{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     
 
     height: 100vh;
-    position: relative;
     margin-left: var(--sidebar-width);
 }
 
@@ -31,7 +30,7 @@ body,button,input{
     align-items: center;
     gap:2.4rem;
 
-    margin-bottom: 15%;
+    margin-top: 5%;
     padding:2rem;
     width: 40rem;
     height: auto;

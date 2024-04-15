@@ -11,8 +11,14 @@
 
   <div id="main-content">
     {% include 'partials/_header.html' %}
+    
     <div class="search-container">
       <input type="search" placeholder="Search">
+      {%if user.is_authenticated %}
+        <a href="{% url 'createNewStockMonitor' %}">
+          <button class="home-button">+ Adicionar nova ação</button>
+        </a>
+      {% endif %}
     </div>
     <div id="table-wrapper">
       <table class="responsive-table">
@@ -30,31 +36,35 @@
         </tr>
         </thead>
         <tbody>
-        <!-- {% for stock in stock_info%}
+        {% if stockInfo|length == 0 and user.is_authenticated %}
+          <p>No stock added</p>
+        {% endif %}
+        {% for stock in stockInfo%}
           <tr>
             <td data-label="Ativo">{{stock.symbol}}</td>
             <td data-label="Preço Abertura">{{stock.open_price}}</td>
-            <td data-label="Preço Fechamento">{{stock.close_price}}</td>
             <td data-label="Maior Preço">{{stock.highest_price}}</td>
             <td data-label="Menor Preço">{{stock.lowest_price}}</td>
-            <td data-label="Volume">{{stock.volume}}</td>
             <td data-label="Modo de Analise">{{stock.interval}}</td>
             <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
             <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
           </tr>
-        {% endfor%} -->
-        
-          <tr>
-            <td data-label="Ativo">IBM</td>
-            <td data-label="Preço Abertura">123</td>
-            <td data-label="Preço Fechamento">123</td>
-            <td data-label="Maior Preço">123</td>
-            <td data-label="Menor Preço">123</td>
-            <td data-label="Volume">123</td>
-            <td data-label="Modo de Analise">123</td>
-            <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
-            <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
-          </tr>
+        {% endfor%}
+        {% if not user.is_authenticated %}
+        <tr>
+          <td data-label="Ativo">IBM</td>
+          <td data-label="Preço Abertura">123</td>
+          <td data-label="Preço Fechamento">123</td>
+          <td data-label="Maior Preço">123</td>
+          <td data-label="Menor Preço">123</td>
+          <td data-label="Volume">123</td>
+          <td data-label="Modo de Analise">123</td>
+          <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
+          <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
+        </tr>
+        {% endif %}
+        </tbody>
+      </table>
     </div>
   </div>
   {% include 'partials/_warning_modal.html' %}

@@ -1,0 +1,19 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+:root{
+    font-size: 62.5%;
+    --sidebar-width:22.5rem;
+}
+
+body,button,input{
+  font-family: 'Roboto';
+}
+ 
+#main-content{
+  height: 100vh;
+  margin-left: var(--sidebar-width);
+}
