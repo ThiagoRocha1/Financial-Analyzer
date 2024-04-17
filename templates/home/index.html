@@ -26,30 +26,34 @@
         <tr>
           <th>Ativo</th>
           <th>Preço abertura</th>
+          <th>Maior preço</th>
+          <th>Menor preço</th>
           <th>Tipo de limite</th>
           <th>Limite superior</th>
           <th>Limite inferior</th>
-          {% if stock.typeOfLimit == 'dinamic' %}
-          <th>Preço base</th>
-          {% endif %}
           <th>Tempo de atualização</th>
           <th class="icon-column"></th>          
         </tr>
         </thead>
         <tbody>
-        {% if user.is_authenticated and not stockInfo.0 != 'error' %}
+        {% if user.is_authenticated and stockInfo.0 != 'error' %}
           {% for stock in stockInfo%}
             <tr>
               <td data-label="Ativo">{{stock.symbol}}</td>
-              <td data-label="Preço Abertura">{{stock.open_price}}</td>
-              <td data-label="Tipo de limite">{{stock.typeOfLimit}}</td>
+              <td data-label="Preço abertura">{{stock.open_price}}</td>
+              <td data-label="Maior preço">{{stock.highest_price}}</td>
+              <td data-label="Menor preço">{{stock.lowest_price}}</td>
+              <td data-label="Tipo de limite">{{stock.typeOfLimit}} 
+                {% if stock.typeOfLimit == 'dinamic' %}
+                - método preço base: {{stock.basePrice}}
+                {% endif %}
+              </td>
               {% if stock.typeOfLimit == 'static' %}
-              <td data-label="Limite Superior (em Reais)">{{stock.upperLimitStatic}}</td>
-              <td data-label="Limite Inferior (em Reais)">{{stock.lowerLimitStatic}}</td>
+              <td data-label="Limite Superior (em Reais)">R${{stock.upperLimitStatic}}</td>
+              <td data-label="Limite Inferior (em Reais)">R${{stock.lowerLimitStatic}}</td>
               {% else %}
-              <td data-label="Limite Superior">{{stock.upperLimitDinamic}}</td>
-              <td data-label="Limite Inferior">{{stock.lowerLimitDinamic}}</td>
-              <td data-label="Preço Base">{{stock.basePrice}}</td>
+              <td data-label="Limite Superior">{{stock.upperLimitDinamic}}%</td>
+              <td data-label="Limite Inferior">{{stock.lowerLimitDinamic}}%</td>
               {% endif %}
               <td data-label="Tempo de atualização">{{stock.interval}}</td>
               <td class="icon-column"><a href="{% url 'deleteStockMonitor' stock.id %}"class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
