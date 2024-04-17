@@ -1,7 +1,7 @@
 import requests
 
 def getStockInfo(stockSymbol,interval):
-    stock_info = {'stock_info':'404 couldnt find stock information'}
+    stock_info = {'error':'Limite do uso da api diário atingido, as informações não serão processadas.'}
 
     request_params = {'function':'TIME_SERIES_INTRADAY',
                       'symbol':f'{stockSymbol}',
@@ -9,7 +9,10 @@ def getStockInfo(stockSymbol,interval):
                       'interval':f'{interval}'}
     url = 'https://www.alphavantage.co/query'
     r = requests.get(url, params=request_params)
-
+    # Conferindo se o limite diario da api foi atingido
+    if r.json()["Information"] == "Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.":
+        return stock_info
+    
     if r.status_code == 200:
         data = r.json()
 

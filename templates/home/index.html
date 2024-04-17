@@ -25,24 +25,32 @@
         <thead>
         <tr>
           <th>Ativo</th>
-          <th>Preço Abertura</th>
-          <th>Maior Preço</th>
-          <th>Menor Preço</th>
+          <th>Preço abertura</th>
+          <th>Tipo de limite</th>
+          <th>Limite superior</th>
+          <th>Limite inferior</th>
+          {% if stock.typeOfLimit == 'dinamic' %}
+          <th>Preço base</th>
+          {% endif %}
           <th>Tempo de atualização</th>
           <th class="icon-column"></th>          
         </tr>
         </thead>
         <tbody>
-        {% if stockInfo|length == 0 and user.is_authenticated %}
-          <p>No stock added</p>
-        {% endif %}
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and not stockInfo.0 != 'error' %}
           {% for stock in stockInfo%}
             <tr>
               <td data-label="Ativo">{{stock.symbol}}</td>
               <td data-label="Preço Abertura">{{stock.open_price}}</td>
-              <td data-label="Maior Preço">{{stock.highest_price}}</td>
-              <td data-label="Menor Preço">{{stock.lowest_price}}</td>
+              <td data-label="Tipo de limite">{{stock.typeOfLimit}}</td>
+              {% if stock.typeOfLimit == 'static' %}
+              <td data-label="Limite Superior (em Reais)">{{stock.upperLimitStatic}}</td>
+              <td data-label="Limite Inferior (em Reais)">{{stock.lowerLimitStatic}}</td>
+              {% else %}
+              <td data-label="Limite Superior">{{stock.upperLimitDinamic}}</td>
+              <td data-label="Limite Inferior">{{stock.lowerLimitDinamic}}</td>
+              <td data-label="Preço Base">{{stock.basePrice}}</td>
+              {% endif %}
               <td data-label="Tempo de atualização">{{stock.interval}}</td>
               <td class="icon-column"><a href="{% url 'deleteStockMonitor' stock.id %}"class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
             </tr>
@@ -59,6 +67,12 @@
         {% endif %}
         </tbody>
       </table>
+      {% if stockInfo|length == 0 and user.is_authenticated%}
+        <p>No stock added</p>
+      {% endif %}
+      {% if stockInfo.0.error %}
+        <p>{{stockInfo.0.error }}</p>
+      {% endif %}
     </div>
   </div>
   {% include 'partials/_warning_modal.html' %}

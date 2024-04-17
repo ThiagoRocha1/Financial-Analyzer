@@ -71,8 +71,17 @@
 }
 
 .field-wrapper label{
+    font-size: 1.2rem;
     border: none;
     margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.field-wrapper p{
+    border: none;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color:#4E4E4E;
 }
 
 .field-style{

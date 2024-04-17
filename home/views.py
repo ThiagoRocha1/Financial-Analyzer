@@ -14,7 +14,15 @@ def index (request):
         if(stockObjects.__len__ != 0):
             for element in stockObjects:
                 stock = getStockInfo(element.name,element.updateTime)
+                #Se minha api estiver com o limite diario atinginfo, nao irei passar informacoes para meu array e irei passar
+                # minha mensagem padrao de erro
+                if 'error' in stock:
+                    #Adicionar apenas uma vez a mensagem de erro no array
+                    if len(stockInfo) == 0:
+                        stockInfo.append(stock)
+                    break
                 stock["id"] = element.id
+                stock["typeOfLimit"] = element.typeOfLimit
                 stock["upperLimitStatic"] = element.upperLimitStatic
                 stock["lowerLimitStatic"] = element.lowerLimitStatic
                 stock["upperLimitDinamic"] = element.upperLimitDinamic

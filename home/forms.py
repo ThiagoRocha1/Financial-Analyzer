@@ -40,7 +40,7 @@ class StockForms(forms.ModelForm):
         }
 
         labels={
-            'name':'Nome',
+            'name':'Símbolo da ação',
             'completeName':'Nome da ação completo',
             'updateTime':'Tempo de atualização',
             'typeOfLimit':'Tipo de limite',
