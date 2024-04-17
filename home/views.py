@@ -14,6 +14,13 @@ def index (request):
         if(stockObjects.__len__ != 0):
             for element in stockObjects:
                 stock = getStockInfo(element.name,element.updateTime)
+                stock["id"] = element.id
+                stock["upperLimitStatic"] = element.upperLimitStatic
+                stock["lowerLimitStatic"] = element.lowerLimitStatic
+                stock["upperLimitDinamic"] = element.upperLimitDinamic
+                stock["lowerLimitDinamic"] = element.lowerLimitDinamic
+                stock["basePrice"] = element.basePrice
+                
                 stockInfo.append(stock)
           
     return render(request,'home/index.html',{'stockInfo':stockInfo})
@@ -30,3 +37,9 @@ def createNewStockMonitor (request):
             print(form.errors)
 
     return render(request,'home/createNewStockMonitor.html',{'form':form})
+
+def deleteStockMonitor (request,stock_id):
+    stockToBeDeleted = StockMonitor.objects.get(id=stock_id)
+    stockToBeDeleted.delete()
+    messages.success(request,'Deleção feita com sucesso!')
+    return redirect('index')

@@ -28,8 +28,7 @@
           <th>Preço Abertura</th>
           <th>Maior Preço</th>
           <th>Menor Preço</th>
-          <th>Modo de Analise</th>
-          <th class="icon-column"></th>
+          <th>Tempo de atualização</th>
           <th class="icon-column"></th>          
         </tr>
         </thead>
@@ -37,28 +36,25 @@
         {% if stockInfo|length == 0 and user.is_authenticated %}
           <p>No stock added</p>
         {% endif %}
-        {% for stock in stockInfo%}
-          <tr>
-            <td data-label="Ativo">{{stock.symbol}}</td>
-            <td data-label="Preço Abertura">{{stock.open_price}}</td>
-            <td data-label="Maior Preço">{{stock.highest_price}}</td>
-            <td data-label="Menor Preço">{{stock.lowest_price}}</td>
-            <td data-label="Modo de Analise">{{stock.interval}}</td>
-            <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
-            <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
-          </tr>
-        {% endfor%}
-        {% if not user.is_authenticated %}
+        {% if user.is_authenticated %}
+          {% for stock in stockInfo%}
+            <tr>
+              <td data-label="Ativo">{{stock.symbol}}</td>
+              <td data-label="Preço Abertura">{{stock.open_price}}</td>
+              <td data-label="Maior Preço">{{stock.highest_price}}</td>
+              <td data-label="Menor Preço">{{stock.lowest_price}}</td>
+              <td data-label="Tempo de atualização">{{stock.interval}}</td>
+              <td class="icon-column"><a href="{% url 'deleteStockMonitor' stock.id %}"class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
+            </tr>
+          {% endfor %}
+        {% else %}
         <tr>
-          <td data-label="Ativo">IBM</td>
-          <td data-label="Preço Abertura">123</td>
-          <td data-label="Preço Fechamento">123</td>
-          <td data-label="Maior Preço">123</td>
-          <td data-label="Menor Preço">123</td>
-          <td data-label="Volume">123</td>
-          <td data-label="Modo de Analise">123</td>
-          <td class="icon-column"><a href="" class="ion-icon-link"><ion-icon name="create-outline"></ion-icon></a></td>
-          <td class="icon-column"><a href=""class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
+          <td data-label="Ativo">Example</td>
+            <td data-label="Preço Abertura">999</td>
+            <td data-label="Maior Preço">999</td>
+            <td data-label="Menor Preço">999</td>
+            <td data-label="Modo de Analise">999</td>
+            <td class="icon-column"><ion-icon name="trash-outline"></ion-icon></td>
         </tr>
         {% endif %}
         </tbody>
