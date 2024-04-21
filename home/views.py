@@ -2,9 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import StockMonitor
-from home.utils.stock_functions import getStockInfo
+from home.utils.stock_functions import getStockInfo,verifyStockInfo
 from home.forms import StockForms
-import requests
 
 def index (request):
     stockInfo = []
@@ -21,6 +20,7 @@ def index (request):
                     if len(stockInfo) == 0:
                         stockInfo.append(stock)
                     break
+
                 stock["id"] = element.id
                 stock["typeOfLimit"] = element.typeOfLimit
                 stock["upperLimitStatic"] = element.upperLimitStatic
@@ -30,7 +30,7 @@ def index (request):
                 stock["basePrice"] = element.basePrice
                 
                 stockInfo.append(stock)
-          
+                   
     return render(request,'home/index.html',{'stockInfo':stockInfo})
 
 def createNewStockMonitor (request):
@@ -38,6 +38,18 @@ def createNewStockMonitor (request):
     if request.method == 'POST':
         form = StockForms(request.POST)
         if form.is_valid():
+            form.save(commit=False)
+            
+            #Verificar se é válido o símbolo da ação que o usuário colocou
+            requestInfo = verifyStockInfo(form["name"].value())
+            if "Error Message" in requestInfo:
+                messages.error(request,requestInfo["Error Message"])
+                return redirect ('createNewStockMonitor')
+            #Limite de api diário atingido
+            elif "error" in requestInfo:
+                messages.error(request,'Limite de api diário atingido.')
+                return redirect ('createNewStockMonitor')
+
             form.save()
             messages.success(request,'Nova ação cadastrada com sucesso!')
             return redirect('index')

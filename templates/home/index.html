@@ -36,46 +36,50 @@
         </tr>
         </thead>
         <tbody>
-        {% if user.is_authenticated and stockInfo.0 != 'error' %}
-          {% for stock in stockInfo%}
-            <tr>
-              <td data-label="Ativo">{{stock.symbol}}</td>
-              <td data-label="Preço abertura">{{stock.open_price}}</td>
-              <td data-label="Maior preço">{{stock.highest_price}}</td>
-              <td data-label="Menor preço">{{stock.lowest_price}}</td>
-              <td data-label="Tipo de limite">{{stock.typeOfLimit}} 
-                {% if stock.typeOfLimit == 'dinamic' %}
-                - método preço base: {{stock.basePrice}}
-                {% endif %}
-              </td>
-              {% if stock.typeOfLimit == 'static' %}
-              <td data-label="Limite Superior (em Reais)">R${{stock.upperLimitStatic}}</td>
-              <td data-label="Limite Inferior (em Reais)">R${{stock.lowerLimitStatic}}</td>
-              {% else %}
-              <td data-label="Limite Superior">{{stock.upperLimitDinamic}}%</td>
-              <td data-label="Limite Inferior">{{stock.lowerLimitDinamic}}%</td>
-              {% endif %}
-              <td data-label="Tempo de atualização">{{stock.interval}}</td>
-              <td class="icon-column"><a href="{% url 'deleteStockMonitor' stock.id %}"class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
-            </tr>
-          {% endfor %}
-        {% else %}
-        <tr>
-          <td data-label="Ativo">Example</td>
-            <td data-label="Preço Abertura">999</td>
-            <td data-label="Maior Preço">999</td>
-            <td data-label="Menor Preço">999</td>
-            <td data-label="Modo de Analise">999</td>
-            <td class="icon-column"><ion-icon name="trash-outline"></ion-icon></td>
-        </tr>
-        {% endif %}
+          {% if user.is_authenticated and stockInfo.0.error != "error" %}
+            {% for stock in stockInfo%}
+                <tr>
+                    <td data-label="Ativo">{{stock.symbol}}</td>
+                    <td data-label="Preço abertura">{{stock.open_price}}</td>
+                    <td data-label="Maior preço">{{stock.highest_price}}</td>
+                    <td data-label="Menor preço">{{stock.lowest_price}}</td>
+                    <td data-label="Tipo de limite">{{stock.typeOfLimit}} 
+                    {% if stock.typeOfLimit == 'dinamic' %}
+                    - método preço base: {{stock.basePrice}}
+                    {% endif %}
+                    </td>
+                    {% if stock.typeOfLimit == 'static' %}
+                    <td data-label="Limite Superior (em Reais)">R${{stock.upperLimitStatic}}</td>
+                    <td data-label="Limite Inferior (em Reais)">R${{stock.lowerLimitStatic}}</td>
+                    {% else %}
+                    <td data-label="Limite Superior">{{stock.upperLimitDinamic}}%</td>
+                    <td data-label="Limite Inferior">{{stock.lowerLimitDinamic}}%</td>
+                    {% endif %}
+                    <td data-label="Tempo de atualização">{{stock.interval}}</td>
+                    <td class="icon-column"><a href="{% url 'deleteStockMonitor' stock.id %}"class="ion-icon-link"><ion-icon name="trash-outline"></ion-icon></a></td>
+                </tr>
+            {% endfor %}
+            {% else %}
+              <tr>
+                  <td data-label="Ativo">Example</td>
+                  <td data-label="Preço Abertura">999</td>
+                  <td data-label="Maior Preço">999</td>
+                  <td data-label="Menor Preço">999</td>
+                  <td data-label="Modo de Analise">999</td>
+                  <td data-label="Limite Sueprior">999</td>
+                  <td data-label="Limite Inferior">999</td>
+                  <td data-label="Tempo de atualizacao">999</td>
+                  <td class="icon-column"><ion-icon name="trash-outline"></ion-icon></td>
+              </tr>
+            {% endif %}
         </tbody>
       </table>
       {% if stockInfo|length == 0 and user.is_authenticated%}
         <p>No stock added</p>
+        {{stockInfo}}
       {% endif %}
       {% if stockInfo.0.error %}
-        <p>{{stockInfo.0.error }}</p>
+        <p>Limite diário da api atingido. A informação não será processada.</p>
       {% endif %}
     </div>
   </div>
