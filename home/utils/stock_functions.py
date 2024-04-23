@@ -69,13 +69,13 @@ def verifyStockInfo(stockSymbol: str)->dict:
         return stock_info
 
 
-def enviar_email(bodyMessage: str,arrayOfReceivers: list)-> any:
+def sendEmail(bodyMessage: str,arrayOfReceivers: list)-> None:
     try:
         msg = MIMEMultipart()
         msg['Subject'] = "Test message"
-        msg['From'] = ''
+        msg['From'] = 'mrthiago09@gmail.com'
         receivers = arrayOfReceivers
-        password = ''
+        password = 'scxw xikq ketq ypxb'
 
         body = bodyMessage
         bodyHtml = MIMEText(body, 'html')

@@ -25,6 +25,7 @@
         <thead>
         <tr>
           <th>Ativo</th>
+          <th>Último preço</th>
           <th>Preço abertura</th>
           <th>Maior preço</th>
           <th>Menor preço</th>
@@ -40,6 +41,7 @@
             {% for stock in stockInfo%}
                 <tr>
                     <td data-label="Ativo">{{stock.symbol}}</td>
+                    <td data-label="Último preço">{{stock.close_price}}</td>
                     <td data-label="Preço abertura">{{stock.open_price}}</td>
                     <td data-label="Maior preço">{{stock.highest_price}}</td>
                     <td data-label="Menor preço">{{stock.lowest_price}}</td>
@@ -62,6 +64,7 @@
             {% else %}
               <tr>
                   <td data-label="Ativo">Example</td>
+                  <td data-label="Último preço">999</td>
                   <td data-label="Preço Abertura">999</td>
                   <td data-label="Maior Preço">999</td>
                   <td data-label="Menor Preço">999</td>
@@ -85,4 +88,46 @@
   </div>
   {% include 'partials/_warning_modal.html' %}
 </body>
+{% if user.is_authenticated %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function updateStock(acaoId, intervalo) {
+      $.ajax({
+          url: `updateStockInfo/${acaoId}/`,
+          type: 'GET',
+          success: function(data) {
+              // Manipulating DOM
+              $(`#acao_${acaoId}`).text(`${data.nome}: ${data.valor_atual}`);
+              // Defer update
+              setTimeout(() => updateStock(acaoId, intervalo), intervalo * 1000);
+          },
+          error: function() {
+              console.error(`Erro ao buscar dados da ação ${acaoId}`);
+              // Reagenda tentativa após um fallback de intervalo, por exemplo, 60 segundos
+              setTimeout(() => updateStock(acaoId, 60), 60000);
+          }
+      });
+  }
+
+  function inicializeUpdate() {
+      $.ajax({
+          url: `/getAllStockFromUser/`, 
+          type: 'GET',
+          dataType: 'json',
+          success: function(stocks) {
+              $.each(stocks, function(index, stock) {
+                  updateStock(stock.id, stock.intervalo_atualizacao);
+              });
+          },
+          error: function(e) {
+              console.error(`Erro ao receber ações ${e}`);
+          }
+      });
+  }
+
+  $(document).ready(function() {
+    inicializeUpdate();
+  });
+</script>
+{% endif %}
 </html>

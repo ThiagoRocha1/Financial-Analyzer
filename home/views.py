@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import StockMonitor
-from home.utils.stock_functions import getStockInfo,verifyStockInfo
+from home.utils.stock_functions import getStockInfo,verifyStockInfo,sendEmail
 from home.forms import StockForms
 
 def index (request):
@@ -63,3 +64,64 @@ def deleteStockMonitor (request,stock_id):
     stockToBeDeleted.delete()
     messages.success(request,'Deleção feita com sucesso!')
     return redirect('index')
+
+def getAllStockFromUser (request):
+    listStock = []
+    stocks = StockMonitor.objects.filter(userId = request.user.id)
+    for element in stocks:
+        stock = {}
+        stock["id"] = element.id
+        stock["typeOfLimit"] = element.typeOfLimit
+        stock["upperLimitStatic"] = element.upperLimitStatic
+        stock["lowerLimitStatic"] = element.lowerLimitStatic
+        stock["upperLimitDinamic"] = element.upperLimitDinamic
+        stock["lowerLimitDinamic"] = element.lowerLimitDinamic
+        stock["basePrice"] = element.basePrice
+        listStock.append(stock)
+
+    return JsonResponse(list(listStock),safe=False)
+
+def updateStockInfo(request,stock_id):
+   if request.method == 'GET':
+      stockElement = StockMonitor.objects.get(id=stock_id)
+      stockInfo = getStockInfo(stockElement.name,stockElement.updateTime)
+      newInfo ={
+      "open_price":stockInfo['open_price'],
+      "close_price":stockInfo['close_price'],     
+      "highest_price":stockInfo['highest_price'],
+      "lowest_price":stockInfo['lowest_price'],
+      }
+   if(stockElement.typeOfLimit == "static"):
+      if(float(stockInfo["close_price"]) >= stockElement.upperLimitStatic):
+         body = f"""
+         <h1>Olá investidor!</h1>
+         <p>O Limite superior de {stockElement.upperLimitStatic} foi ultrapassado!</p>
+         <p>Isso é uma excelente oportunidade de venda!</p>
+         """
+         sendEmail(body,['mrthiago09@gmail.com'])
+      elif(float(stockInfo["close_price"]) <= stockElement.lowerLimitStatic):
+         body = f"""
+         <h1>Olá investidor!</h1>
+         <p>O Limite inferior de {stockElement.lowerLimitStatic} foi ultrapassado!</p>
+         <p>Isso é uma excelente oportunidade de compra!</p>
+         """
+         sendEmail(body,['mrthiago09@gmail.com'])
+   else:
+      averagePrice = (float(stockInfo["highest_price"]) + float(stockInfo["lowest_price"]))/2
+      if(float(stockInfo["close_price"]) >= ((stockElement.upperLimitDinamic*averagePrice)/100) + averagePrice):
+         body = f"""
+         <h1>Olá investidor!</h1>
+         <p>O Limite superior de {stockElement.upperLimitDinamic}% foi ultrapassado!</p>
+         <p>Isso é uma excelente oportunidade de venda!</p>
+         """
+         sendEmail(body,['mrthiago09@gmail.com'])
+      elif(float(stockInfo["close_price"]) <= averagePrice - ((stockElement.lowerLimitDinamic*averagePrice)/100)):
+         body = f"""
+         <h1>Olá investidor!</h1>
+         <p>O Limite inferior de {stockElement.lowerLimitDinamic}% foi ultrapassado!</p>
+         <p>Isso é uma excelente oportunidade de compra!</p>
+         """
+
+         sendEmail(body,['mrthiago09@gmail.com'])
+
+   return JsonResponse(newInfo,safe=False)
