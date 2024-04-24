@@ -71,6 +71,8 @@ def getAllStockFromUser (request):
     for element in stocks:
         stock = {}
         stock["id"] = element.id
+        stock["name"] = element.name
+        stock["updateTime"] = element.updateTime
         stock["typeOfLimit"] = element.typeOfLimit
         stock["upperLimitStatic"] = element.upperLimitStatic
         stock["lowerLimitStatic"] = element.lowerLimitStatic
