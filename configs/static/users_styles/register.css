@@ -102,3 +102,10 @@ body,button,input{
 .button-form-style:hover{
     background-color: #324991;
 }
+
+@media screen and (max-width: 700px) {
+    #main-content{
+        height: 100%;
+        margin-left: 0;
+    }
+  }

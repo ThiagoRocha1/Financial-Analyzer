@@ -17,3 +17,10 @@ body,button,input{
   height: 100vh;
   margin-left: var(--sidebar-width);
 }
+
+@media screen and (max-width: 700px) {
+  #main-content{
+    height: 100%;
+    margin-left: 0;
+  }
+}

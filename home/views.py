@@ -23,6 +23,7 @@ def index (request):
                     break
 
                 stock["id"] = element.id
+                stock["name"] = element.name
                 stock["typeOfLimit"] = element.typeOfLimit
                 stock["upperLimitStatic"] = element.upperLimitStatic
                 stock["lowerLimitStatic"] = element.lowerLimitStatic
@@ -93,6 +94,7 @@ def updateStockInfo(request,stock_id):
       "highest_price":stockInfo['highest_price'],
       "lowest_price":stockInfo['lowest_price'],
       }
+      
    if(stockElement.typeOfLimit == "static"):
       if(float(stockInfo["close_price"]) >= stockElement.upperLimitStatic):
          body = f"""
@@ -101,6 +103,7 @@ def updateStockInfo(request,stock_id):
          <p>Isso é uma excelente oportunidade de venda!</p>
          """
          sendEmail(body,['mrthiago09@gmail.com'])
+         messages.success(request,'Email enviado com sucesso!')
       elif(float(stockInfo["close_price"]) <= stockElement.lowerLimitStatic):
          body = f"""
          <h1>Olá investidor!</h1>
@@ -108,6 +111,7 @@ def updateStockInfo(request,stock_id):
          <p>Isso é uma excelente oportunidade de compra!</p>
          """
          sendEmail(body,['mrthiago09@gmail.com'])
+         messages.success(request,'Email enviado com sucesso!')
    else:
       averagePrice = (float(stockInfo["highest_price"]) + float(stockInfo["lowest_price"]))/2
       if(float(stockInfo["close_price"]) >= ((stockElement.upperLimitDinamic*averagePrice)/100) + averagePrice):
@@ -117,6 +121,7 @@ def updateStockInfo(request,stock_id):
          <p>Isso é uma excelente oportunidade de venda!</p>
          """
          sendEmail(body,['mrthiago09@gmail.com'])
+         messages.success(request,'Email enviado com sucesso!')
       elif(float(stockInfo["close_price"]) <= averagePrice - ((stockElement.lowerLimitDinamic*averagePrice)/100)):
          body = f"""
          <h1>Olá investidor!</h1>
@@ -125,5 +130,6 @@ def updateStockInfo(request,stock_id):
          """
 
          sendEmail(body,['mrthiago09@gmail.com'])
+         messages.success(request,'Email enviado com sucesso!')
 
    return JsonResponse(newInfo,safe=False)

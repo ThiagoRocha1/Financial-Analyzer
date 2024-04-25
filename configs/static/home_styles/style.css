@@ -30,14 +30,6 @@ body,button,input{
   padding: 1rem;
 }
 
-.search-container input {
-  padding: .5rem 3rem .5rem 1rem;
-  background: #6b6b6b;
-  color: white;
-  border: none;
-  border-radius: .8rem;
-}
-
 .search-container input::placeholder{
   color:white;
 }
@@ -115,4 +107,11 @@ ion-icon {
 .ion-icon-link:hover,
 .ion-icon-link:active,.ion-icon-link:visited{
 color: black;
+}
+
+@media screen and (max-width: 700px) {
+  #main-content{
+    height: 100%;
+    margin-left: 0;
+  }
 }
