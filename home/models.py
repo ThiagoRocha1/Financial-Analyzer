@@ -10,8 +10,6 @@ class StockMonitor(models.Model):
 
     BASE_PRICE_CHOICES=[
         ('ltp','Last Traded Price (LTP)'),
-        ('c_last','C-LAST'),
-        ('most_recent','Most Recent')
     ]
 
     UPDATE_TIME_CHOICES=[

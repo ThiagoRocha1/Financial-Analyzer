@@ -42,6 +42,22 @@ def createNewStockMonitor (request):
         if form.is_valid():
             form.save(commit=False)
             
+            #Verificar se o usuario está passando parâmetros válido de limite superior e inferior
+            if form["typeOfLimit"].value() == 'static':
+                if form["lowerLimitStatic"].value() >= form["upperLimitStatic"].value():
+                    messageToUser = "Limite inferior incorreto, o valor do limite inferior é maior ou igual ao superior"
+                    messages.error(request,messageToUser)
+                    return redirect ('createNewStockMonitor')
+                elif float(form["lowerLimitStatic"].value()) < 0 or float(form["upperLimitStatic"].value()) <0:
+                    messageToUser = "O valor da ação não pode ser negativo."
+                    messages.error(request,messageToUser)
+                    return redirect ('createNewStockMonitor')
+            else:
+                if float(form["lowerLimitDinamic"].value()) <= 0 or float(form["upperLimitDinamic"].value()) <=0:
+                    messageToUser = "O valor em % é negativo ou igual a 0"
+                    messages.error(request,messageToUser)
+                    return redirect ('createNewStockMonitor')
+
             #Verificar se é válido o símbolo da ação que o usuário colocou
             requestInfo = verifyStockInfo(form["name"].value())
             if "Error Message" in requestInfo:
@@ -99,18 +115,18 @@ def updateStockInfo(request,stock_id):
       if(float(stockInfo["close_price"]) >= stockElement.upperLimitStatic):
          body = f"""
          <h1>Olá investidor!</h1>
-         <p>O Limite superior de {stockElement.upperLimitStatic} foi ultrapassado!</p>
+         <p>O Limite superior de R${stockElement.upperLimitStatic} foi ultrapassado!</p>
          <p>Isso é uma excelente oportunidade de venda!</p>
          """
-         sendEmail(body,['mrthiago09@gmail.com'])
+         sendEmail(body,[f'{request.user.email}'])
          messages.success(request,'Email enviado com sucesso!')
       elif(float(stockInfo["close_price"]) <= stockElement.lowerLimitStatic):
          body = f"""
          <h1>Olá investidor!</h1>
-         <p>O Limite inferior de {stockElement.lowerLimitStatic} foi ultrapassado!</p>
+         <p>O Limite inferior de R${stockElement.lowerLimitStatic} foi ultrapassado!</p>
          <p>Isso é uma excelente oportunidade de compra!</p>
          """
-         sendEmail(body,['mrthiago09@gmail.com'])
+         sendEmail(body,[f'{request.user.email}'])
          messages.success(request,'Email enviado com sucesso!')
    else:
       averagePrice = (float(stockInfo["highest_price"]) + float(stockInfo["lowest_price"]))/2
@@ -120,7 +136,7 @@ def updateStockInfo(request,stock_id):
          <p>O Limite superior de {stockElement.upperLimitDinamic}% foi ultrapassado!</p>
          <p>Isso é uma excelente oportunidade de venda!</p>
          """
-         sendEmail(body,['mrthiago09@gmail.com'])
+         sendEmail(body,[f'{request.user.email}'])
          messages.success(request,'Email enviado com sucesso!')
       elif(float(stockInfo["close_price"]) <= averagePrice - ((stockElement.lowerLimitDinamic*averagePrice)/100)):
          body = f"""
@@ -129,7 +145,7 @@ def updateStockInfo(request,stock_id):
          <p>Isso é uma excelente oportunidade de compra!</p>
          """
 
-         sendEmail(body,['mrthiago09@gmail.com'])
+         sendEmail(body,[f'{request.user.email}'])
          messages.success(request,'Email enviado com sucesso!')
 
    return JsonResponse(newInfo,safe=False)

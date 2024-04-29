@@ -5,16 +5,7 @@ from email.mime.text import MIMEText
 
 def getStockInfo(stockSymbol: str,interval: str)->dict:
     apiKey  = 'KUKVBJ02YUQK5M0U'
-    # apiKey2 = '5QVLEGJA8HPR2DKH'
-    # apiKey3 = 'AK4IUQ67O8ZFROFO'
-    # apiKey4 = '7Y445P21OTSEV1DZ'
-    # apiKey5 = 'GRJMJOP6512YYGI3'
-    # apiKey6 = 'WQU8T1K47P9LNTNS'
-    # apiKey7 = 'Z5KULTEVQ4MIT4QK'
-    # apiKey8 = 'GRJMJOP6512YYGI3'
-    # apiKey9 ='68P4DH4DXPH3GAB9'
-    # apiArray = [apiKey,apiKey2,apiKey3,apiKey4,apiKey5,apiKey6,apiKey7,apiKey8,apiKey9]
-
+ 
     stringConfirmationOfDailyCallsApi = "Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     request_params = {'function':'TIME_SERIES_INTRADAY',
                     'symbol':f'{stockSymbol}',
@@ -22,6 +13,7 @@ def getStockInfo(stockSymbol: str,interval: str)->dict:
                     'interval':f'{interval}'}
     url = 'https://www.alphavantage.co/query'
     r = requests.get(url, params=request_params)
+    
     # Conferindo se o limite diario da api foi atingido
     if "Information" in r.json() and r.json()["Information"] == stringConfirmationOfDailyCallsApi:
         stock_info = {'error':'error'}
